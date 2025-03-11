@@ -7,6 +7,16 @@ function Navbar() {
       <CustomNavLink to="/forms" end>
         Home
       </CustomNavLink>
+      <ul>
+        <li>
+          <CustomNavLink to="/forms/uncontrolled-form">
+            Uncontrolled Form
+          </CustomNavLink>
+        </li>
+        <li>
+          <CustomNavLink to="/forms/hook-form">Hook Form</CustomNavLink>
+        </li>
+      </ul>
     </NavbarUI>
   );
 }

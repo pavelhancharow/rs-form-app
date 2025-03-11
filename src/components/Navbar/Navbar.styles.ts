@@ -10,6 +10,15 @@ const NavbarUI = styled.nav`
   overflow: hidden;
   box-shadow: 0 3px 4px 0 rgb(from var(--secondary) r g b / 54%);
 
+  & ul {
+    display: flex;
+
+    & li {
+      padding: 1.125rem;
+      border-left: 1px solid var(--gray-400);
+    }
+  }
+
   & > a {
     padding: 1.125rem;
   }
