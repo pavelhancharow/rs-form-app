@@ -10,8 +10,7 @@ const RootLayoutUI = styled.div`
     gap: 10px;
     width: 100%;
     height: 73vh;
-    background-color: var(--gray-100);
-    opacity: 0.6;
+    background-color: rgb(from var(--primary) r g b / 60%);
     border-radius: 1rem;
     overflow: hidden;
   }

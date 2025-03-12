@@ -6,7 +6,7 @@ const NavbarUI = styled.nav`
   width: fit-content;
   margin: 0 auto;
   border-radius: 2rem;
-  background-color: var(--gray-100);
+  background-color: var(--primary);
   overflow: hidden;
   box-shadow: 0 3px 4px 0 rgb(from var(--secondary) r g b / 54%);
 

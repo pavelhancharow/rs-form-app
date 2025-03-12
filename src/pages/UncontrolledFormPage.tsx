@@ -1,7 +1,9 @@
+import Form from '../components/Form/Form.tsx';
+
 function UncontrolledFormPage() {
   return (
     <>
-      <form>Uncontrolled Form</form>
+      <Form />
     </>
   );
 }
