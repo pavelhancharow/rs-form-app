@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const CustomNavLinkUI = styled(NavLink)`
   &.active {
-    color: var(--blue-800);
+    color: var(--accent-primary);
   }
 `;
 

@@ -25,7 +25,7 @@ const RadioFieldUI = styled.label`
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background-color: var(--blue-800);
+    background-color: var(--accent-primary);
     position: absolute;
     top: 50%;
     left: 50%;

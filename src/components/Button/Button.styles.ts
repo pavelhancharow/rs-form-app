@@ -4,7 +4,7 @@ const ButtonUI = styled.button`
   padding: 6px 16px;
   border-radius: 4px;
   color: var(--primary);
-  background-color: var(--blue-800);
+  background-color: var(--accent-primary);
   text-transform: uppercase;
   cursor: pointer;
 `;

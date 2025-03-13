@@ -15,7 +15,7 @@ export default createGlobalStyle`${css`
     font-size: 16px;
     font-weight: var(--primary-font-weight);
     color: var(--secondary);
-    background-color: var(--gray-800);
+    background-color: var(--secondary);
     background-image: url(${mountains});
     background-repeat: no-repeat;
     background-position: center;
@@ -50,5 +50,17 @@ export default createGlobalStyle`${css`
 
   input {
     cursor: auto;
+  }
+
+  button:disabled {
+    background-color: var(--disabled);
+    cursor: not-allowed;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
   }
 `}`;

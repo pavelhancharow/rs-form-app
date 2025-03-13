@@ -15,7 +15,7 @@ const NavbarUI = styled.nav`
 
     & li {
       padding: 1.125rem;
-      border-left: 1px solid var(--gray-400);
+      border-left: 1px solid var(--tertiary);
     }
   }
 
@@ -25,7 +25,7 @@ const NavbarUI = styled.nav`
 
   & a {
     &:hover {
-      color: var(--blue-800);
+      color: var(--accent-primary);
     }
   }
 `;
