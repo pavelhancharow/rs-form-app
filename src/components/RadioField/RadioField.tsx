@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, memo } from 'react';
 import RadioFieldUI from './RadioField.styles.ts';
 
 interface RadioFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -9,10 +9,10 @@ function RadioField({ label, ...props }: RadioFieldProps) {
   return (
     <RadioFieldUI htmlFor={props.id}>
       <input {...props} type="radio" />
-      <span className="custom-radio-circle"></span>
+      <span />
       {label}
     </RadioFieldUI>
   );
 }
 
-export default RadioField;
+export default memo(RadioField);

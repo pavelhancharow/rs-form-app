@@ -1,8 +1,9 @@
-import { InputHTMLAttributes, ReactNode } from 'react';
-import { TextField } from '../TextField/TextField.tsx';
+import { InputHTMLAttributes, memo, ReactNode } from 'react';
+import TextField from '../TextField/TextField.tsx';
 
 interface SelectGroupProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  error?: string;
   children: ReactNode;
 }
 
@@ -15,4 +16,4 @@ function SelectGroup({ children, ...props }: SelectGroupProps) {
   );
 }
 
-export default SelectGroup;
+export default memo(SelectGroup);

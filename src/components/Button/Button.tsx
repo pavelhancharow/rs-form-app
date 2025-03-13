@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, memo, ReactNode } from 'react';
 import ButtonUI from './Button.styles.ts';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,4 +9,4 @@ function Button({ children, ...props }: ButtonProps) {
   return <ButtonUI {...props}>{children}</ButtonUI>;
 }
 
-export default Button;
+export default memo(Button);

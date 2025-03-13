@@ -1,18 +1,19 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import RadioGroupUI from './RadioGroup.styles.ts';
 
 interface RadioGroupProps {
   label: string;
+  error?: string;
   children: ReactNode;
 }
 
-function RadioGroup({ children, ...props }: RadioGroupProps) {
+function RadioGroup({ children, error, label }: RadioGroupProps) {
   return (
-    <RadioGroupUI>
-      <span>{props.label}</span>
+    <RadioGroupUI data-error={!!error}>
+      <span>{label}</span>
       <div>{children}</div>
     </RadioGroupUI>
   );
 }
 
-export default RadioGroup;
+export default memo(RadioGroup);

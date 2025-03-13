@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, memo } from 'react';
 import CheckboxUI from './Checkbox.styles.ts';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -6,9 +6,9 @@ interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-function Checkbox({ label, ...props }: CheckboxProps) {
+function Checkbox({ label, error, ...props }: CheckboxProps) {
   return (
-    <CheckboxUI htmlFor={props.id}>
+    <CheckboxUI htmlFor={props.id} data-error={!!error}>
       <div>
         <input {...props} type="checkbox" />
         <span>
@@ -32,4 +32,4 @@ function Checkbox({ label, ...props }: CheckboxProps) {
   );
 }
 
-export default Checkbox;
+export default memo(Checkbox);

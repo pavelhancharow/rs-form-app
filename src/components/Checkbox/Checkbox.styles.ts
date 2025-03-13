@@ -3,12 +3,12 @@ import styled from 'styled-components';
 const CheckboxUI = styled.label`
   display: flex;
   gap: 10px;
+  cursor: pointer;
 
   & div {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     position: relative;
   }
 
@@ -16,6 +16,7 @@ const CheckboxUI = styled.label`
     width: 1.2em;
     height: 1.2em;
     background-color: var(--tertiary);
+    border: 2px solid transparent;
     border-radius: 4px;
     appearance: none;
     transition-property: all;
@@ -38,7 +39,7 @@ const CheckboxUI = styled.label`
   }
 
   & > div input:checked {
-    background-color: var(--blue-800);
+    background-color: var(--accent-primary);
   }
 
   & > div input:checked ~ span {
@@ -48,6 +49,16 @@ const CheckboxUI = styled.label`
   & > div input:checked + span > svg {
     fill: var(--primary);
     stroke: var(--primary);
+  }
+
+  &[data-error='true'] {
+    & > div input {
+      border-color: var(--warning);
+    }
+
+    & p {
+      color: var(--warning);
+    }
   }
 `;
 

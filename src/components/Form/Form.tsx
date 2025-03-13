@@ -1,45 +1,105 @@
+import { FormEvent, useCallback, useRef, useState } from 'react';
+import { ValidationError } from 'yup';
+import { GenderTypes, TermsTypes } from '../../enums';
+import { countries } from '../../mock/countries.ts';
+import { ProfileFormEntity } from '../../models';
+import { profileSchema } from '../../schemas';
+import { convertFileToBase64, transformYupErrorsIntoObject } from '../../utils';
 import AvatarField from '../AvatarField/AvatarField.tsx';
 import Button from '../Button/Button.tsx';
 import Checkbox from '../Checkbox/Checkbox.tsx';
-import FileField from '../FileField/FileField.tsx';
 import RadioField from '../RadioField/RadioField.tsx';
 import RadioGroup from '../RadioGroup/RadioGroup.tsx';
 import SelectGroup from '../SelectGroup/SelectGroup.tsx';
-import { TextField } from '../TextField/TextField.tsx';
+import TextField from '../TextField/TextField.tsx';
 import FormStyles from './Form.styles.ts';
 
 const { FormUI, FormControlsUI, FormBodyUI, FormBodyRightUI, FormBodyLeftUI } =
   FormStyles;
 
 function Form() {
+  const ref = useRef(null);
+  const [errors, setErrors] = useState<Record<string, string> | null>(null);
+
+  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (ref.current) {
+      const formData = new FormData(ref.current);
+
+      const formEntries = {
+        ...Object.fromEntries(formData.entries()),
+        terms: formData.get('terms'),
+        gender: formData.get('gender'),
+        file:
+          (formData.get('file') as File)?.size > 0
+            ? (formData.get('file') as File)
+            : null,
+      };
+
+      try {
+        const { confirmPassword, ...data } = await profileSchema.validate(
+          formEntries,
+          { abortEarly: false }
+        );
+
+        const updatedData: ProfileFormEntity = {
+          ...data,
+          file: data.file && (await convertFileToBase64(data.file)),
+        };
+
+        console.log(updatedData);
+        setErrors(null);
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          setErrors(transformYupErrorsIntoObject(error));
+        } else {
+          console.error('Unexpected error:', error);
+        }
+      }
+    }
+  }, []);
+
   return (
-    <FormUI>
+    <FormUI ref={ref} noValidate onSubmit={handleSubmit}>
       <FormBodyUI>
         <FormBodyLeftUI>
-          <FileField id="file" name="file" accept=".jpg, .jpeg, .png">
-            <AvatarField />
-          </FileField>
+          <AvatarField
+            id="file"
+            name="file"
+            accept="image/png, image/jpeg"
+            {...(errors?.file && { error: errors.file })}
+          />
 
           <TextField
             type="number"
             id="age"
             name="age"
             label="Age"
-            min="0"
+            min="1"
             placeholder=""
+            {...(errors?.age && { error: errors.age })}
           />
 
-          <RadioGroup label="Gender:">
+          <RadioGroup
+            label="Gender:"
+            {...(errors?.gender && { error: errors.gender })}
+          >
             <RadioField
-              id="female"
-              value="female"
+              id={GenderTypes.Female}
+              value={GenderTypes.Female}
               name="gender"
               label="Female"
             />
-            <RadioField id="male" value="male" name="gender" label="Male" />
             <RadioField
-              id="other"
-              value="other"
+              id={GenderTypes.Male}
+              value={GenderTypes.Male}
+              name="gender"
+              label="Male"
+            />
+            <RadioField
+              id={GenderTypes.Other}
+              value={GenderTypes.Other}
               name="gender"
               label="Other"
               defaultChecked
@@ -54,6 +114,7 @@ function Form() {
             name="name"
             label="Name"
             placeholder=""
+            {...(errors?.name && { error: errors.name })}
           />
 
           <TextField
@@ -62,6 +123,7 @@ function Form() {
             name="email"
             label="Email"
             placeholder=""
+            {...(errors?.email && { error: errors.email })}
           />
 
           <TextField
@@ -70,14 +132,16 @@ function Form() {
             name="password"
             label="Password"
             placeholder=""
+            {...(errors?.password && { error: errors.password })}
           />
 
           <TextField
             type="password"
-            id="cpassword"
-            name="cpassword"
+            id="confirmPassword"
+            name="confirmPassword"
             label="Confirm Password"
             placeholder=""
+            {...(errors?.confirmPassword && { error: errors.confirmPassword })}
           />
 
           <SelectGroup
@@ -87,16 +151,23 @@ function Form() {
             list="countries"
             label="Select Country"
             placeholder=""
+            {...(errors?.country && { error: errors.country })}
           >
-            <option value="Germany"></option>
-            <option value="Belarus"></option>
-            <option value="Georgia"></option>
+            {countries.map((country) => (
+              <option key={country} value={country} />
+            ))}
           </SelectGroup>
         </FormBodyRightUI>
       </FormBodyUI>
 
       <FormControlsUI>
-        <Checkbox id="checkbox" name="TC" label="Accept Terms and Conditions" />
+        <Checkbox
+          id="terms"
+          name="terms"
+          label="Accept Terms and Conditions"
+          value={TermsTypes.Agreed}
+          {...(errors?.terms && { error: errors.terms })}
+        />
 
         <Button type="submit">Submit</Button>
       </FormControlsUI>

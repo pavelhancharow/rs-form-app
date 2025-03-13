@@ -6,7 +6,6 @@ const FormUI = styled.form`
   width: 80%;
   max-width: 600px;
   margin: 0 auto;
-  gap: 16px;
   justify-content: center;
 `;
 
@@ -15,13 +14,17 @@ const FormBodyUI = styled.div`
   gap: 10%;
 `;
 
-const FormBodySide = styled(FormBodyUI)`
+const FormBodySide = styled.div`
+  display: flex;
   flex-direction: column;
-  gap: 16px;
 `;
 
 const FormBodyLeftUI = styled(FormBodySide)`
   flex: 1 0 auto;
+
+  & > *:first-of-type {
+    margin-bottom: 20px;
+  }
 `;
 
 const FormBodyRightUI = styled(FormBodySide)`

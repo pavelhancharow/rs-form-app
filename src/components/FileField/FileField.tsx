@@ -1,18 +1,15 @@
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { InputHTMLAttributes, memo } from 'react';
 import FileFieldUI from './FileField.styles.ts';
 
-interface FileFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  children: ReactNode;
-}
+type FileFieldProps = InputHTMLAttributes<HTMLInputElement>;
 
-function FileField({ children, ...props }: FileFieldProps) {
+function FileField({ ...props }: FileFieldProps) {
   return (
     <FileFieldUI>
-      {children}
       <label htmlFor={props.id}>Upload Picture</label>
       <input {...props} type="file" />
     </FileFieldUI>
   );
 }
 
-export default FileField;
+export default memo(FileField);

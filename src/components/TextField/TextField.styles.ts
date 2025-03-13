@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const TextFieldUI = styled.div`
   position: relative;
   width: 100%;
+  margin-bottom: 20px;
 
   & label {
     position: absolute;
@@ -28,14 +29,14 @@ const TextFieldUI = styled.div`
     padding: 16px;
 
     &:focus {
-      border-color: var(--blue-800);
+      border-color: var(--accent-primary);
     }
 
     &:focus + label span,
     &:not(:placeholder-shown) + label span {
       font-size: 12px;
       transform: translate(0, -150%);
-      background-color: var(--blue-800);
+      background-color: var(--accent-primary);
       color: var(--primary);
       padding-left: 4px;
       padding-right: 4px;
@@ -43,6 +44,31 @@ const TextFieldUI = styled.div`
 
     &:not(:focus):not(:placeholder-shown) + label span {
       background-color: var(--tertiary);
+    }
+  }
+
+  & p {
+    position: absolute;
+    bottom: -16px;
+    left: 4px;
+    font-size: 14px;
+    color: var(--warning);
+  }
+
+  &[data-error='true'] {
+    & label span,
+    & input {
+      color: var(--warning);
+    }
+
+    & input {
+      border-color: var(--warning);
+
+      &:focus + label span,
+      &:not(:placeholder-shown) + label span,
+      &:not(:focus):not(:placeholder-shown) + label span {
+        background-color: var(--warning);
+      }
     }
   }
 `;
