@@ -1,11 +1,12 @@
 import { Component, ComponentType, ErrorInfo, ReactNode } from 'react';
+import { FallbackEntity } from '../../models';
 
 interface ErrorBoundaryProps {
-  FallbackComponent: ComponentType;
+  FallbackComponent: ComponentType<FallbackEntity>;
   children: ReactNode;
 }
 
-interface ErrorBoundaryState {
+interface ErrorBoundaryState extends Partial<FallbackEntity> {
   hasError: boolean;
 }
 
@@ -27,7 +28,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError) {
       const FallbackComponent = this.props.FallbackComponent;
 
-      return <FallbackComponent />;
+      return (
+        <FallbackComponent
+          error={this.state.error ?? new Error('Something went wrong!')}
+          componentStack={this.state.componentStack ?? 'ErrorBoundary'}
+        />
+      );
     }
 
     return this.props.children;
