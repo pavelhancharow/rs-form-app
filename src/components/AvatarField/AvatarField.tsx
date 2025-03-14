@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { convertFileToBase64 } from '../../utils';
+import Avatar from '../Avatar/Avatar.tsx';
 import FileField from '../FileField/FileField.tsx';
 import AvatarFieldUI from './AvatarField.styles.ts';
 import defaultUrl from '../../assets/user-icon.svg';
@@ -37,9 +38,8 @@ function AvatarField({ error, ...props }: AvatarFieldProps) {
   return (
     <AvatarFieldUI data-error={!!error}>
       <div>
-        <span>
-          <img src={avatar} alt="user avatar" />
-        </span>
+        <Avatar src={avatar} alt="user avatar" width={110} height={110} />
+
         {error && <p>{error}</p>}
       </div>
 
