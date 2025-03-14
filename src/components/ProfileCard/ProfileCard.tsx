@@ -7,7 +7,7 @@ type ProfileCardProps = ProfileEntity;
 
 function ProfileCard(props: ProfileCardProps) {
   return (
-    <ProfileCardUI>
+    <ProfileCardUI data-new={Date.now() - props.createdAt < 3000}>
       <Avatar
         src={props.file || defaultUrl}
         alt="user avatar"

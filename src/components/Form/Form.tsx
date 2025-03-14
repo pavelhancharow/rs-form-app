@@ -1,9 +1,12 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 import { GenderTypes, TermsTypes } from '../../enums';
 import { countries } from '../../mock/countries.ts';
-import { ProfileFormEntity } from '../../models';
+import { ProfileEntity } from '../../models';
 import { profileSchema } from '../../schemas';
+import { profilesActions } from '../../store/profiles/slice.ts';
 import { convertFileToBase64, transformYupErrorsIntoObject } from '../../utils';
 import AvatarField from '../AvatarField/AvatarField.tsx';
 import Button from '../Button/Button.tsx';
@@ -20,45 +23,53 @@ const { FormUI, FormControlsUI, FormBodyUI, FormBodyRightUI, FormBodyLeftUI } =
 function Form() {
   const ref = useRef(null);
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    if (ref.current) {
-      const formData = new FormData(ref.current);
+      if (ref.current) {
+        const formData = new FormData(ref.current);
 
-      const formEntries = {
-        ...Object.fromEntries(formData.entries()),
-        terms: formData.get('terms'),
-        gender: formData.get('gender'),
-        file:
-          (formData.get('file') as File)?.size > 0
-            ? (formData.get('file') as File)
-            : null,
-      };
-
-      try {
-        const { confirmPassword, ...data } = await profileSchema.validate(
-          formEntries,
-          { abortEarly: false }
-        );
-
-        const updatedData: ProfileFormEntity = {
-          ...data,
-          file: data.file && (await convertFileToBase64(data.file)),
+        const formEntries = {
+          ...Object.fromEntries(formData.entries()),
+          terms: formData.get('terms'),
+          gender: formData.get('gender'),
+          file:
+            (formData.get('file') as File)?.size > 0
+              ? (formData.get('file') as File)
+              : null,
         };
 
-        console.log(updatedData);
-        setErrors(null);
-      } catch (error) {
-        if (error instanceof ValidationError) {
-          setErrors(transformYupErrorsIntoObject(error));
-        } else {
-          console.error('Unexpected error:', error);
+        try {
+          const { confirmPassword, ...data } = await profileSchema.validate(
+            formEntries,
+            { abortEarly: false }
+          );
+
+          const updatedData: ProfileEntity = {
+            ...data,
+            file: data.file && (await convertFileToBase64(data.file)),
+            id: Date.now(),
+            createdAt: Date.now(),
+          };
+
+          dispatch(profilesActions.addProfile(updatedData));
+
+          navigate('/');
+        } catch (error) {
+          if (error instanceof ValidationError) {
+            setErrors(transformYupErrorsIntoObject(error));
+          } else {
+            console.error('Unexpected error:', error);
+          }
         }
       }
-    }
-  }, []);
+    },
+    [dispatch]
+  );
 
   return (
     <FormUI ref={ref} noValidate onSubmit={handleSubmit}>

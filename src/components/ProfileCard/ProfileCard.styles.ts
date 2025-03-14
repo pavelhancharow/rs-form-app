@@ -1,4 +1,9 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  0% { background-color: rgb(from var(--accent-primary) r g b / 60%); }
+  90% { background-color: var(--primary); }
+`;
 
 const ProfileCardUI = styled.div`
   display: flex;
@@ -8,6 +13,10 @@ const ProfileCardUI = styled.div`
   padding: 20px 30px;
   background-color: var(--primary);
   border-radius: 8px;
+
+  &[data-new='true'] {
+    animation: ${fadeIn} 3s ease-in-out forwards;
+  }
 
   & .profile-card {
     &__bio {
