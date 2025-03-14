@@ -1,5 +1,7 @@
+import LoaderUI from './Loader.styles.ts';
+
 function Loader() {
-  return <div>Loading ...</div>;
+  return <LoaderUI />;
 }
 
 export default Loader;
