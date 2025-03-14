@@ -2,17 +2,18 @@ import { FormEvent, useCallback, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
+import { useGetCountriesQuery } from '../api';
 import AvatarField from '../components/AvatarField/AvatarField.tsx';
 import Button from '../components/Button/Button.tsx';
 import Checkbox from '../components/Checkbox/Checkbox.tsx';
+import Loader from '../components/Loader/Loader.tsx';
 import RadioField from '../components/RadioField/RadioField.tsx';
 import RadioGroup from '../components/RadioGroup/RadioGroup.tsx';
 import SelectGroup from '../components/SelectGroup/SelectGroup.tsx';
 import TextField from '../components/TextField/TextField.tsx';
 import { GenderTypes, TermsTypes } from '../enums';
-import { countries } from '../mock/countries.ts';
 import { ProfileEntity } from '../models';
-import { profileSchema } from '../schemas';
+import { useProfileSchema } from '../schemas';
 import { profilesActions } from '../store/profiles/slice.ts';
 import {
   FormBodyLeftUI,
@@ -24,6 +25,8 @@ import {
 import { convertFileToBase64, transformYupErrorsIntoObject } from '../utils';
 
 function UncontrolledFormPage() {
+  const { data: countries, error, isLoading } = useGetCountriesQuery(null);
+  const profileSchema = useProfileSchema();
   const ref = useRef<HTMLFormElement | null>(null);
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
   const dispatch = useDispatch();
@@ -71,8 +74,11 @@ function UncontrolledFormPage() {
         }
       }
     },
-    [dispatch, navigate]
+    [dispatch, navigate, profileSchema]
   );
+
+  if (isLoading) return <Loader />;
+  if (error) return <p style={{ color: 'red' }}>Error loading countries</p>;
 
   return (
     <FormUI ref={ref} noValidate onSubmit={handleSubmit}>
@@ -167,7 +173,7 @@ function UncontrolledFormPage() {
             placeholder=""
             {...(errors?.country && { error: errors.country })}
           >
-            {countries.map((country) => (
+            {countries?.map((country) => (
               <option key={country} value={country} />
             ))}
           </SelectGroup>

@@ -3,17 +3,18 @@ import { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useGetCountriesQuery } from '../api';
 import AvatarField from '../components/AvatarField/AvatarField.tsx';
 import Button from '../components/Button/Button.tsx';
 import Checkbox from '../components/Checkbox/Checkbox.tsx';
+import Loader from '../components/Loader/Loader.tsx';
 import RadioField from '../components/RadioField/RadioField.tsx';
 import RadioGroup from '../components/RadioGroup/RadioGroup.tsx';
 import SelectGroup from '../components/SelectGroup/SelectGroup.tsx';
 import TextField from '../components/TextField/TextField.tsx';
 import { GenderTypes, TermsTypes } from '../enums';
-import { countries } from '../mock/countries.ts';
 import { ProfileEntity, ProfileFormEntity } from '../models';
-import { profileSchema } from '../schemas';
+import { useProfileSchema } from '../schemas';
 import { profilesActions } from '../store/profiles/slice.ts';
 import {
   FormBodyLeftUI,
@@ -25,6 +26,8 @@ import {
 import { convertFileToBase64 } from '../utils';
 
 function HookFormPage() {
+  const { data: countries, error, isLoading } = useGetCountriesQuery(null);
+  const profileSchema = useProfileSchema();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -61,6 +64,9 @@ function HookFormPage() {
     },
     [setValue, trigger]
   );
+
+  if (isLoading) return <Loader />;
+  if (error) return <p style={{ color: 'red' }}>Error loading countries</p>;
 
   return (
     <FormUI noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -182,7 +188,7 @@ function HookFormPage() {
               error: errors.country.message,
             })}
           >
-            {countries.map((country) => (
+            {countries?.map((country) => (
               <option key={country} value={country} />
             ))}
           </SelectGroup>

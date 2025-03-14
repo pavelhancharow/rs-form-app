@@ -1,1 +1,1 @@
-export * from './profileSchema';
+export * from './profileSchema.ts';
