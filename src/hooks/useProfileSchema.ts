@@ -12,54 +12,69 @@ export const useProfileSchema = () => {
       yup.object<ProfileFormEntity>().shape({
         name: yup
           .string()
-          .required('Name is required')
+          .transform((value, originalValue) =>
+            originalValue === '' ? null : value
+          )
           .matches(/^[A-Z]/, 'First letter must be uppercase')
-          .matches(/^[A-Za-z\s]*$/, 'Name should only contain letters'),
+          .required('Name is required'),
         age: yup
           .number()
-          .required('Age is required')
           .transform((value, originalValue) =>
             originalValue === '' ? null : value
           )
           .positive('Age must be a positive number')
-          .typeError('Age must be a number'),
+          .typeError('Age must be a number')
+          .required('Age is required'),
         email: yup
           .string()
-          .required('Email is required')
-          .lowercase()
+          .transform((value, originalValue) =>
+            originalValue === '' ? null : value
+          )
           .matches(
-            /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+-+)|(\w+\.)*\w{1,63})\.[a-zA-Z]{2,6})$/i,
+            /^(([^<>()\][,;:\s@"]+(\.[^<>()\][,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/,
             'Invalid email format'
-          ),
+          )
+          .required('Email is required'),
         password: yup
           .string()
-          .required('Password is required')
+          .transform((value, originalValue) =>
+            originalValue === '' ? null : value
+          )
           .matches(/(?=.*[A-Z])/, 'Must contain at least one uppercase letter')
           .matches(/(?=.*[a-z])/, 'Must contain at least one lowercase letter')
           .matches(/(?=.*\d)/, 'Must contain at least one number')
           .matches(
-            /^(?=.*[!@#$%^&*()-=_+[\]{};:'",.<>/?\\|`~]).+$/,
+            /^(?=.*[/!@#$%^&*(\\)=_+\][{};\-:'",.<>?|`~]).+$/,
             'Must contain at least one special character'
-          ),
+          )
+          .required('Password is required'),
         confirmPassword: yup
           .string()
-          .required('Please, confirm password')
-          .oneOf([yup.ref('password')], 'Passwords must match'),
+          .transform((value, originalValue) =>
+            originalValue === '' ? null : value
+          )
+          .oneOf([yup.ref('password')], 'Passwords must match')
+          .required('Please, confirm password'),
         terms: yup
           .string()
           .oneOf([TermsTypes.Agreed], 'T&C must be accepted')
           .required('T&C must be accepted'),
         gender: yup
           .string()
-          .required('Gender is required')
-          .oneOf([GenderTypes.Female, GenderTypes.Male, GenderTypes.Other]),
+          .oneOf(
+            [GenderTypes.Female, GenderTypes.Male, GenderTypes.Other],
+            'Select from: female, male or other'
+          )
+          .required('Gender is required'),
         country: yup
           .string()
-          .required('Country is required')
-          .oneOf(countries, 'Please select a valid country'),
+          .transform((value, originalValue) =>
+            originalValue === '' ? null : value
+          )
+          .oneOf(countries, 'Please, select a valid country')
+          .required('Country is required'),
         file: yup
           .mixed<File>()
-          .required('File is required')
           .test('required', 'File is required', (value) =>
             Boolean(value instanceof FileList ? value[0] : value)
           )
@@ -76,7 +91,8 @@ export const useProfileSchema = () => {
 
               return file && ['image/jpeg', 'image/png'].includes(file.type);
             }
-          ),
+          )
+          .required('File is required'),
       }),
     [countries]
   );
