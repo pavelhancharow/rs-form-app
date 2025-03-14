@@ -13,7 +13,7 @@ import SelectGroup from '../components/SelectGroup/SelectGroup.tsx';
 import TextField from '../components/TextField/TextField.tsx';
 import { GenderTypes, TermsTypes } from '../enums';
 import { ProfileEntity } from '../models';
-import { useProfileSchema } from '../schemas';
+import { useProfileSchema } from '../hooks';
 import { profilesActions } from '../store/profiles/slice.ts';
 import {
   FormBodyLeftUI,
