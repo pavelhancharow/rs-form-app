@@ -12,19 +12,24 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage.tsx'));
 
 function App() {
   return (
-    <Suspense fallback={<Loader />}>
-      <Routes>
-        <Route path="/" element={<Navigate to="/forms" />} />
+    <RootLayout>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/forms" />} />
 
-        <Route path="forms" element={<RootLayout />}>
-          <Route index element={<MainPage />} />
-          <Route path="uncontrolled-form" element={<UncontrolledFormPage />} />
-          <Route path="hook-form" element={<HookFormPage />} />
-        </Route>
+          <Route path="forms">
+            <Route index element={<MainPage />} />
+            <Route
+              path="uncontrolled-form"
+              element={<UncontrolledFormPage />}
+            />
+            <Route path="hook-form" element={<HookFormPage />} />
+          </Route>
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Suspense>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </RootLayout>
   );
 }
 

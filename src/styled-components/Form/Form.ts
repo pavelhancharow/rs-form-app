@@ -5,8 +5,6 @@ export const FormUI = styled.form`
   flex-direction: column;
   width: 80%;
   max-width: 600px;
-  margin: 0 auto;
-  justify-content: center;
 `;
 
 export const FormBodyUI = styled.div`
