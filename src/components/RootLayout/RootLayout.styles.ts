@@ -8,8 +8,9 @@ const RootLayoutUI = styled.div`
   & main {
     display: flex;
     gap: 10px;
-    width: 100%;
+    width: 80%;
     height: 73vh;
+    margin: 0 auto;
     background-color: rgb(from var(--primary) r g b / 60%);
     border-radius: 1rem;
     overflow: hidden;
