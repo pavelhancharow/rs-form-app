@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useGetCountriesQuery } from '../api';
 import AvatarField from '../components/AvatarField/AvatarField.tsx';
@@ -17,6 +16,7 @@ import { GenderTypes, TermsTypes } from '../enums';
 import { ProfileEntity, ProfileFormEntity } from '../models';
 import { useProfileSchema } from '../hooks';
 import { profilesActions } from '../store/profiles/slice.ts';
+import { useAppDispatch } from '../store/store.ts';
 import {
   FormBodyLeftUI,
   FormBodyRightUI,
@@ -29,7 +29,7 @@ import { convertFileToBase64 } from '../utils';
 function HookFormPage() {
   const { data: countries, error, isLoading } = useGetCountriesQuery(null);
   const profileSchema = useProfileSchema();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
     register,

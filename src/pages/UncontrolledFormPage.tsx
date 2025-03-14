@@ -1,5 +1,4 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 import { useGetCountriesQuery } from '../api';
@@ -16,6 +15,7 @@ import { GenderTypes, TermsTypes } from '../enums';
 import { ProfileEntity } from '../models';
 import { useProfileSchema } from '../hooks';
 import { profilesActions } from '../store/profiles/slice.ts';
+import { useAppDispatch } from '../store/store.ts';
 import {
   FormBodyLeftUI,
   FormBodyRightUI,
@@ -30,7 +30,7 @@ function UncontrolledFormPage() {
   const profileSchema = useProfileSchema();
   const ref = useRef<HTMLFormElement | null>(null);
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = useCallback(
