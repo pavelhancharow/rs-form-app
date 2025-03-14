@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import Button from '../components/Button/Button.tsx';
 import NotFound from '../components/NotFound/NotFound.tsx';
 
 function NotFoundPage() {
@@ -10,7 +11,7 @@ function NotFoundPage() {
 
   return (
     <NotFound>
-      <button onClick={handleClick}>Go Home</button>
+      <Button onClick={handleClick}>Go Home</Button>
     </NotFound>
   );
 }
