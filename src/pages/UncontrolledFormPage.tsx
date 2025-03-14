@@ -6,6 +6,7 @@ import { useGetCountriesQuery } from '../api';
 import AvatarField from '../components/AvatarField/AvatarField.tsx';
 import Button from '../components/Button/Button.tsx';
 import Checkbox from '../components/Checkbox/Checkbox.tsx';
+import ErrorMessage from '../components/ErrorComponent/ErrorMessage.tsx';
 import Loader from '../components/Loader/Loader.tsx';
 import RadioField from '../components/RadioField/RadioField.tsx';
 import RadioGroup from '../components/RadioGroup/RadioGroup.tsx';
@@ -78,7 +79,7 @@ function UncontrolledFormPage() {
   );
 
   if (isLoading) return <Loader />;
-  if (error) return <p style={{ color: 'red' }}>Error loading countries</p>;
+  if (error) return <ErrorMessage info={error} />;
 
   return (
     <FormUI ref={ref} noValidate onSubmit={handleSubmit}>
