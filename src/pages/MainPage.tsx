@@ -1,7 +1,5 @@
 import { useSelector } from 'react-redux';
-import MainLayout from '../components/MainLayout/MainLayout.tsx';
-import NoContent from '../components/NoContent/NoContent.tsx';
-import ProfileCard from '../components/ProfileCard/ProfileCard.tsx';
+import { MainLayout, NoContent, ProfileCard } from '../components';
 import { getProfilesSelector } from '../store/profiles/selectors.ts';
 
 function MainPage() {

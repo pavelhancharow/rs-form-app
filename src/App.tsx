@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
-import Loader from './components/Loader/Loader.tsx';
-import RootLayout from './components/RootLayout/RootLayout.tsx';
+import { Loader, RootLayout } from './components';
 
 const MainPage = lazy(() => import('./pages/MainPage.tsx'));
 const UncontrolledFormPage = lazy(

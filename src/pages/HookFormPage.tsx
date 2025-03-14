@@ -3,15 +3,17 @@ import { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useGetCountriesQuery } from '../api';
-import AvatarField from '../components/AvatarField/AvatarField.tsx';
-import Button from '../components/Button/Button.tsx';
-import Checkbox from '../components/Checkbox/Checkbox.tsx';
-import ErrorMessage from '../components/ErrorComponent/ErrorMessage.tsx';
-import Loader from '../components/Loader/Loader.tsx';
-import RadioField from '../components/RadioField/RadioField.tsx';
-import RadioGroup from '../components/RadioGroup/RadioGroup.tsx';
-import SelectGroup from '../components/SelectGroup/SelectGroup.tsx';
-import TextField from '../components/TextField/TextField.tsx';
+import {
+  AvatarField,
+  Button,
+  Checkbox,
+  ErrorMessage,
+  Loader,
+  RadioField,
+  RadioGroup,
+  SelectGroup,
+  TextField,
+} from '../components';
 import { GenderTypes, TermsTypes } from '../enums';
 import { ProfileEntity, ProfileFormEntity } from '../models';
 import { useProfileSchema } from '../hooks';
