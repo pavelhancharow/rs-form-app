@@ -38,7 +38,7 @@ function HookFormPage() {
     handleSubmit,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ProfileFormEntity>({
     resolver: yupResolver(profileSchema),
     mode: 'onChange',
@@ -210,7 +210,12 @@ function HookFormPage() {
           })}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          disabled={Object.keys(errors).length > 0 && !isValid}
+        >
+          Submit
+        </Button>
       </FormControlsUI>
     </FormUI>
   );
