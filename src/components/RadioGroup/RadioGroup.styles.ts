@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const RadioGroupUI = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;

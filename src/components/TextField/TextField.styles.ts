@@ -47,14 +47,6 @@ const TextFieldUI = styled.div`
     }
   }
 
-  & p {
-    position: absolute;
-    bottom: -16px;
-    left: 4px;
-    font-size: 14px;
-    color: var(--warning);
-  }
-
   &[data-error='true'] {
     & label span,
     & input {

@@ -1,18 +1,22 @@
-import { InputHTMLAttributes, memo } from 'react';
+import { forwardRef, InputHTMLAttributes, memo } from 'react';
 import RadioFieldUI from './RadioField.styles.ts';
 
 interface RadioFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-function RadioField({ label, ...props }: RadioFieldProps) {
-  return (
-    <RadioFieldUI htmlFor={props.id}>
-      <input {...props} type="radio" />
-      <span />
-      {label}
-    </RadioFieldUI>
-  );
-}
+const RadioField = forwardRef<HTMLInputElement, RadioFieldProps>(
+  ({ label, ...props }, ref) => {
+    return (
+      <RadioFieldUI htmlFor={props.id}>
+        <input ref={ref} {...props} type="radio" />
+        <span />
+        {label}
+      </RadioFieldUI>
+    );
+  }
+);
+
+RadioField.displayName = 'RadioField';
 
 export default memo(RadioField);

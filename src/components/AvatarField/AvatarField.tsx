@@ -1,10 +1,12 @@
 import {
   ChangeEvent,
+  forwardRef,
   InputHTMLAttributes,
   memo,
   useEffect,
   useState,
 } from 'react';
+import { ErrorFieldText } from '../../styled-components';
 import { convertFileToBase64 } from '../../utils';
 import Avatar from '../Avatar/Avatar.tsx';
 import FileField from '../FileField/FileField.tsx';
@@ -13,39 +15,52 @@ import defaultUrl from '../../assets/user-icon.svg';
 
 interface AvatarFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
+  callback?: (file: File) => Promise<void>;
 }
 
-function AvatarField({ error, ...props }: AvatarFieldProps) {
-  const [avatar, setAvatar] = useState<string>(defaultUrl);
+const AvatarField = forwardRef<HTMLInputElement, AvatarFieldProps>(
+  ({ error, callback, ...props }, ref) => {
+    const [avatar, setAvatar] = useState<string>(defaultUrl);
 
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
 
-    if (file) {
-      const fileUrl = await convertFileToBase64(file);
-      setAvatar(fileUrl);
-    }
-  };
+      if (file) {
+        const fileUrl = await convertFileToBase64(file);
+        setAvatar(fileUrl);
 
-  useEffect(() => {
-    return () => {
-      if (avatar && avatar !== defaultUrl) {
-        URL.revokeObjectURL(avatar);
+        if (callback) {
+          await callback(file);
+        }
       }
     };
-  }, [avatar]);
 
-  return (
-    <AvatarFieldUI data-error={!!error}>
-      <div>
-        <Avatar src={avatar} alt="user avatar" width={110} height={110} />
+    useEffect(() => {
+      return () => {
+        if (avatar && avatar !== defaultUrl) {
+          URL.revokeObjectURL(avatar);
+        }
+      };
+    }, [avatar]);
 
-        {error && <p>{error}</p>}
-      </div>
+    return (
+      <AvatarFieldUI data-error={!!error}>
+        <div>
+          <Avatar src={avatar} alt="user avatar" width={110} height={110} />
 
-      <FileField {...props} onChange={handleFileChange} />
-    </AvatarFieldUI>
-  );
-}
+          {error && (
+            <ErrorFieldText bottom={-32} left={0}>
+              {error}
+            </ErrorFieldText>
+          )}
+        </div>
+
+        <FileField ref={ref} {...props} onChange={handleFileChange} />
+      </AvatarFieldUI>
+    );
+  }
+);
+
+AvatarField.displayName = 'AvatarField';
 
 export default memo(AvatarField);

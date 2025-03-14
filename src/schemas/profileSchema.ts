@@ -13,7 +13,6 @@ export const profileSchema = yup.object<ProfileFormEntity>().shape({
     .number()
     .required('Age is required')
     .transform((value, originalValue) => (originalValue === '' ? null : value))
-    .nullable()
     .positive('Age must be a positive number')
     .typeError('Age must be a number'),
   email: yup
@@ -38,10 +37,13 @@ export const profileSchema = yup.object<ProfileFormEntity>().shape({
     .string()
     .required('Please, confirm password')
     .oneOf([yup.ref('password')], 'Passwords must match'),
-  terms: yup.string().oneOf([TermsTypes.Agreed]).required(),
+  terms: yup
+    .string()
+    .oneOf([TermsTypes.Agreed], 'T&C must be accepted')
+    .required('T&C must be accepted'),
   gender: yup
     .string()
-    .required()
+    .required('Gender is required')
     .oneOf([GenderTypes.Female, GenderTypes.Male, GenderTypes.Other]),
   country: yup
     .string()
@@ -52,15 +54,21 @@ export const profileSchema = yup.object<ProfileFormEntity>().shape({
   file: yup
     .mixed<File>()
     .required('File is required')
-    .nullable()
-    .test(
-      'fileSize',
-      'File too large, max size is 2MB',
-      (value) => !value || value.size <= Math.pow(1024, 2) * 2
+    .test('required', 'File is required', (value) =>
+      Boolean(value instanceof FileList ? value[0] : value)
     )
+    .test('fileSize', 'File too large, max size is 2MB', (value) => {
+      const file = value instanceof FileList ? value[0] : value;
+
+      return file && file.size <= Math.pow(1024, 2) * 2;
+    })
     .test(
       'fileFormat',
       'Unsupported Format, only PNG or JPEG allowed',
-      (value) => !value || ['image/jpeg', 'image/png'].includes(value.type)
+      (value) => {
+        const file = value instanceof FileList ? value[0] : value;
+
+        return file && ['image/jpeg', 'image/png'].includes(file.type);
+      }
     ),
 });

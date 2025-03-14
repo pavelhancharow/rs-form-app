@@ -2,11 +2,12 @@ import { GenderTypes, TermsTypes } from '../enums';
 
 export interface ProfileFormEntity {
   name: string;
-  age: number | null;
+  age: number;
   gender: GenderTypes;
   terms: TermsTypes;
   email: string;
   password: string;
+  confirmPassword: string;
   country: string;
-  file: string | null;
+  file: File;
 }

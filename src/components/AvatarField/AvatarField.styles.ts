@@ -10,14 +10,6 @@ const AvatarFieldUI = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-
-    & > p {
-      position: absolute;
-      bottom: -32px;
-      left: 0;
-      font-size: 14px;
-      color: var(--warning);
-    }
   }
 
   &[data-error='true'] > *:first-child > span {

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FormUI = styled.form`
+export const FormUI = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -9,7 +9,7 @@ const FormUI = styled.form`
   justify-content: center;
 `;
 
-const FormBodyUI = styled.div`
+export const FormBodyUI = styled.div`
   display: flex;
   gap: 10%;
 `;
@@ -19,7 +19,7 @@ const FormBodySide = styled.div`
   flex-direction: column;
 `;
 
-const FormBodyLeftUI = styled(FormBodySide)`
+export const FormBodyLeftUI = styled(FormBodySide)`
   flex: 1 0 auto;
 
   & > *:first-of-type {
@@ -27,20 +27,12 @@ const FormBodyLeftUI = styled(FormBodySide)`
   }
 `;
 
-const FormBodyRightUI = styled(FormBodySide)`
+export const FormBodyRightUI = styled(FormBodySide)`
   width: 100%;
 `;
 
-const FormControlsUI = styled.div`
+export const FormControlsUI = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
-
-export default {
-  FormUI,
-  FormBodyUI,
-  FormControlsUI,
-  FormBodyLeftUI,
-  FormBodyRightUI,
-};

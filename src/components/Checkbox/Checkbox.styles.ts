@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const CheckboxUI = styled.label`
+  position: relative;
   display: flex;
   gap: 10px;
   cursor: pointer;
@@ -54,10 +55,6 @@ const CheckboxUI = styled.label`
   &[data-error='true'] {
     & > div input {
       border-color: var(--warning);
-    }
-
-    & p {
-      color: var(--warning);
     }
   }
 `;
