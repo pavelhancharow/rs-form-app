@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { Loader, RootLayout } from './components';
 
 const MainPage = lazy(() => import('./pages/MainPage.tsx'));
@@ -14,9 +14,7 @@ function App() {
     <RootLayout>
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path="/" element={<Navigate to="/forms" />} />
-
-          <Route path="forms">
+          <Route path="/">
             <Route index element={<MainPage />} />
             <Route
               path="uncontrolled-form"

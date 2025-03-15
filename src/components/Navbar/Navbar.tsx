@@ -4,17 +4,17 @@ import NavbarUI from './Navbar.styles.ts';
 function Navbar() {
   return (
     <NavbarUI>
-      <CustomNavLink to="/forms" end>
+      <CustomNavLink to="/" end>
         Home
       </CustomNavLink>
       <ul>
         <li>
-          <CustomNavLink to="/forms/uncontrolled-form">
+          <CustomNavLink to="/uncontrolled-form">
             Uncontrolled Form
           </CustomNavLink>
         </li>
         <li>
-          <CustomNavLink to="/forms/hook-form">Hook Form</CustomNavLink>
+          <CustomNavLink to="/hook-form">Hook Form</CustomNavLink>
         </li>
       </ul>
     </NavbarUI>
