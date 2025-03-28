@@ -1,34 +1,32 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router';
+import { Loader, RootLayout } from './components';
+
+const MainPage = lazy(() => import('./pages/MainPage.tsx'));
+const UncontrolledFormPage = lazy(
+  () => import('./pages/UncontrolledFormPage.tsx')
+);
+const HookFormPage = lazy(() => import('./pages/HookFormPage.tsx'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage.tsx'));
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <RootLayout>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/">
+            <Route index element={<MainPage />} />
+            <Route
+              path="uncontrolled-form"
+              element={<UncontrolledFormPage />}
+            />
+            <Route path="hook-form" element={<HookFormPage />} />
+          </Route>
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </RootLayout>
   );
 }
 
